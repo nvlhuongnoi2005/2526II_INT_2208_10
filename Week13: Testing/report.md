@@ -135,12 +135,6 @@ Sau khi rút gọn, các luật có cùng kết quả được gom lại như sa
 
 Từ bảng rút gọn, số kịch bản tối thiểu cần kiểm thử cho logic nghiệp vụ hợp lệ là **6**.
 
-# Kết luận
-
-Ý 1 đã xác định lớp dữ liệu và giá trị biên cho `age`, `income`, `credit_score`.
-
-Ý 2 đã chỉ ra bảng quyết định, các luật nghiệp vụ và bộ kịch bản tối thiểu cần kiểm thử là 6 trường hợp sau khi rút gọn.
-
 # Ý 3: Danh sách test case hoàn chỉnh
 
 ## 1. Nguyên tắc tạo test case
@@ -178,33 +172,3 @@ Bộ test ở trên bao phủ:
 - Tất cả lớp dữ liệu không hợp lệ của 3 biến đầu vào chính.
 - Tất cả luật quan trọng trong bảng quyết định.
 - Các giá trị biên và giá trị chuyển trạng thái nghiệp vụ.
-
-# Ý 4: Code và kết quả chạy test
-
-## 1. Module xử lý
-
-File: [loan_approval.py](loan_approval.py)
-
-## 2. Bộ test tự động
-
-File: [test_loan_approval.py](test_loan_approval.py)
-
-## 3. Kết quả thực thi
-
-Chạy toàn bộ test suite bằng lệnh:
-
-```bash
-cd "/home/lap/Desktop/2526II_INT_2208_10/Week13: Testing" && /home/lap/Desktop/2526II_INT_2208_10/.venv/bin/python -m unittest discover -v
-```
-
-Kết quả mong đợi và thực tế đều khớp nhau:
-
-- Tổng số test: 15
-- Passed: 15
-- Failed: 0
-
-## 4. Ghi chú triển khai
-
-- `decide_loan()` trả về `Invalid Input` nếu bất kỳ đầu vào nào vi phạm miền giá trị.
-- `credit_score` được phân loại thành `High`, `Medium`, `Low` trước khi áp dụng luật phê duyệt.
-- Bộ test được thiết kế để mỗi luật trong bảng quyết định đều có ít nhất một case tương ứng.
