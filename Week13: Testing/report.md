@@ -164,11 +164,3 @@ Test case được kết hợp từ:
 | TC13 | `65` | `15.0` | `701` | `F` | Income >= 15, Freelance, Low Risk | `MANUAL REVIEW` |
 | TC14 | `30` | `20.0` | `700` | `C` | Income >= 15, Contract, Medium Risk | `APPROVE` |
 | TC15 | `30` | `20.0` | `700` | `F` | Income >= 15, Freelance, Medium Risk | `MANUAL REVIEW` |
-
-## 3. Kết luận về bộ test
-
-Bộ test ở trên bao phủ:
-
-- Tất cả lớp dữ liệu không hợp lệ của 3 biến đầu vào chính.
-- Tất cả luật quan trọng trong bảng quyết định.
-- Các giá trị biên và giá trị chuyển trạng thái nghiệp vụ.
