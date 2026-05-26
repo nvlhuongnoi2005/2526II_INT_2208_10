@@ -1,14 +1,10 @@
-# Báo cáo ý 1: Phân hoạch tương đương và giá trị biên
+# Ý 1: Phân hoạch tương đương và giá trị biên
 
 ## 1. Phạm vi
-
-Phần này chỉ phân tích 3 biến đầu vào cần dùng cho ý 1:
 
 - `age`: số nguyên từ 18 đến 65.
 - `income`: số thực từ 5.0 đến 500.0 triệu VNĐ, làm tròn 1 chữ số thập phân.
 - `credit_score`: số nguyên từ 300 đến 850.
-
-Biến `employment` chưa xét ở ý này vì yêu cầu hiện tại chỉ cần làm ý 1 cho 3 biến trên.
 
 ## 2. Phân hoạch tương đương
 
@@ -98,10 +94,117 @@ Giá trị biên cần kiểm thử:
 | TC07 | `(18, 5.0, 300)` | giá trị biên thấp nhất hợp lệ | Hợp lệ |
 | TC08 | `(65, 500.0, 850)` | giá trị biên cao nhất hợp lệ | Hợp lệ |
 
-## 5. Kết luận
+# Ý 2: Bảng quyết định cho logic nghiệp vụ
 
-Ý 1 đã xác định được:
+## 1. Phân nhóm điều kiện
 
-- Các lớp dữ liệu hợp lệ và không hợp lệ cho `age`, `income`, `credit_score`.
-- Các giá trị biên cần kiểm thử để bao phủ các cận dưới, cận trên và các mốc chuyển trạng thái quan trọng.
-- Bộ test tối thiểu đề xuất gồm cả trường hợp hợp lệ và không hợp lệ để phục vụ cho các ý tiếp theo.
+| Điều kiện | Giá trị |
+| --- | --- |
+| Rủi ro tín dụng | High / Medium / Low |
+| Thu nhập | `< 15.0` / `>= 15.0` |
+| Việc làm | `C` / `F` |
+
+## 2. Các luật quyết định
+
+| Luật | Risk | Income | Employment | Kết quả |
+| --- | --- | --- | --- | --- |
+| R1 | High | Bất kỳ | Bất kỳ | `REJECT` |
+| R2 | Low | `< 15.0` | `C` | `MANUAL REVIEW` |
+| R3 | Low | `< 15.0` | `F` | `REJECT` |
+| R4 | Medium | `< 15.0` | `C` | `REJECT` |
+| R5 | Medium | `< 15.0` | `F` | `REJECT` |
+| R6 | Low | `>= 15.0` | `C` | `APPROVE` |
+| R7 | Medium | `>= 15.0` | `C` | `APPROVE` |
+| R8 | Low | `>= 15.0` | `F` | `MANUAL REVIEW` |
+| R9 | Medium | `>= 15.0` | `F` | `MANUAL REVIEW` |
+
+## 3. Bảng quyết định rút gọn
+
+Sau khi rút gọn, các luật có cùng kết quả được gom lại như sau:
+
+| Luật rút gọn | Risk | Income | Employment | Kết quả |
+| --- | --- | --- | --- | --- |
+| G1 | High | Bất kỳ | Bất kỳ | `REJECT` |
+| G2 | Low | `< 15.0` | `C` | `MANUAL REVIEW` |
+| G3 | Low/Medium | `< 15.0` | `F` | `REJECT` |
+| G4 | Medium | `< 15.0` | `C` | `REJECT` |
+| G5 | Low/Medium | `>= 15.0` | `C` | `APPROVE` |
+| G6 | Low/Medium | `>= 15.0` | `F` | `MANUAL REVIEW` |
+
+## 4. Số kịch bản tối thiểu cần kiểm thử
+
+Từ bảng rút gọn, số kịch bản tối thiểu cần kiểm thử cho logic nghiệp vụ hợp lệ là **6**.
+
+# Kết luận
+
+Ý 1 đã xác định lớp dữ liệu và giá trị biên cho `age`, `income`, `credit_score`.
+
+Ý 2 đã chỉ ra bảng quyết định, các luật nghiệp vụ và bộ kịch bản tối thiểu cần kiểm thử là 6 trường hợp sau khi rút gọn.
+
+# Ý 3: Danh sách test case hoàn chỉnh
+
+## 1. Nguyên tắc tạo test case
+
+Test case được kết hợp từ:
+
+- Các giá trị biên của `age`, `income`, `credit_score`.
+- Các luật rút gọn trong bảng quyết định của ý 2.
+- Các đầu vào hợp lệ và không hợp lệ để kiểm tra nhánh `Invalid Input`.
+
+## 2. Danh sách test case
+
+| TC | age | income | credit_score | employment | Mục tiêu | Kết quả mong đợi |
+| --- | --- | --- | --- | --- | --- | --- |
+| TC01 | `17` | `20.0` | `700` | `C` | age dưới cận | `Invalid Input` |
+| TC02 | `66` | `20.0` | `700` | `C` | age trên cận | `Invalid Input` |
+| TC03 | `18` | `4.9` | `700` | `C` | income dưới cận | `Invalid Input` |
+| TC04 | `18` | `500.1` | `700` | `C` | income trên cận | `Invalid Input` |
+| TC05 | `18` | `20.0` | `299` | `C` | credit_score dưới cận | `Invalid Input` |
+| TC06 | `18` | `20.0` | `851` | `C` | credit_score trên cận | `Invalid Input` |
+| TC07 | `18` | `20.0` | `700` | `X` | employment không hợp lệ | `Invalid Input` |
+| TC08 | `18` | `20.0` | `500` | `C` | High Risk luôn từ chối | `REJECT` |
+| TC09 | `30` | `14.9` | `701` | `C` | Income < 15, Contract, Low Risk | `MANUAL REVIEW` |
+| TC10 | `30` | `14.9` | `701` | `F` | Income < 15, Freelance, Low Risk | `REJECT` |
+| TC11 | `30` | `14.9` | `501` | `C` | Income < 15, Medium Risk | `REJECT` |
+| TC12 | `65` | `15.0` | `701` | `C` | Income >= 15, Contract, Low Risk | `APPROVE` |
+| TC13 | `65` | `15.0` | `701` | `F` | Income >= 15, Freelance, Low Risk | `MANUAL REVIEW` |
+| TC14 | `30` | `20.0` | `700` | `C` | Income >= 15, Contract, Medium Risk | `APPROVE` |
+| TC15 | `30` | `20.0` | `700` | `F` | Income >= 15, Freelance, Medium Risk | `MANUAL REVIEW` |
+
+## 3. Kết luận về bộ test
+
+Bộ test ở trên bao phủ:
+
+- Tất cả lớp dữ liệu không hợp lệ của 3 biến đầu vào chính.
+- Tất cả luật quan trọng trong bảng quyết định.
+- Các giá trị biên và giá trị chuyển trạng thái nghiệp vụ.
+
+# Ý 4: Code và kết quả chạy test
+
+## 1. Module xử lý
+
+File: [loan_approval.py](loan_approval.py)
+
+## 2. Bộ test tự động
+
+File: [test_loan_approval.py](test_loan_approval.py)
+
+## 3. Kết quả thực thi
+
+Chạy toàn bộ test suite bằng lệnh:
+
+```bash
+cd "/home/lap/Desktop/2526II_INT_2208_10/Week13: Testing" && /home/lap/Desktop/2526II_INT_2208_10/.venv/bin/python -m unittest discover -v
+```
+
+Kết quả mong đợi và thực tế đều khớp nhau:
+
+- Tổng số test: 15
+- Passed: 15
+- Failed: 0
+
+## 4. Ghi chú triển khai
+
+- `decide_loan()` trả về `Invalid Input` nếu bất kỳ đầu vào nào vi phạm miền giá trị.
+- `credit_score` được phân loại thành `High`, `Medium`, `Low` trước khi áp dụng luật phê duyệt.
+- Bộ test được thiết kế để mỗi luật trong bảng quyết định đều có ít nhất một case tương ứng.
