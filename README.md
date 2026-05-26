@@ -1,4 +1,4 @@
-# Triangle
+# Bài tập về nhà CNPM
 
 Đây là repo bài tập môn Công nghệ phần mềm.
 
