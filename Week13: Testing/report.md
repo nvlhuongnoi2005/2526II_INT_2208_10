@@ -1,9 +1,3 @@
-BTVN CNPM WEEK 13
-Họ và tên: Nguyễn Văn Lập
-Mã sinh viên: 23020619
-
-File PDF là ý 1,2,3. Ý 4 được push lên trên github: https://github.com/nvlhuongnoi2005/2526II_INT_2208_10/tree/main/Week13%3A%20Testing
-
 # Bài giải
 
 ## B1. Phân hoạch tương đương và Giá trị biên (EP & BVA) cho đầu vào
