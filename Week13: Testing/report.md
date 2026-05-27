@@ -1,166 +1,102 @@
-# Ý 1: Phân hoạch tương đương và giá trị biên
+BTVN CNPM WEEK 13
+Họ và tên: Nguyễn Văn Lập
+Mã sinh viên: 23020619
 
-## 1. Phạm vi
+File PDF là ý 1,2,3. Ý 4 được push lên trên github: https://github.com/nvlhuongnoi2005/2526II_INT_2208_10/tree/main/Week13%3A%20Testing
 
-- `age`: số nguyên từ 18 đến 65.
-- `income`: số thực từ 5.0 đến 500.0 triệu VNĐ, làm tròn 1 chữ số thập phân.
-- `credit_score`: số nguyên từ 300 đến 850.
+# Bài giải
 
-## 2. Phân hoạch tương đương
+## B1. Phân hoạch tương đương và Giá trị biên (EP & BVA) cho đầu vào
 
-### 2.1 `age`
+Ta xét riêng từng biến đầu vào theo miền giá trị đã cho.
 
-| Lớp dữ liệu | Mô tả | Giá trị đại diện | Kết quả mong đợi |
-| --- | --- | --- | --- |
-| A1 | Hợp lệ | 18 đến 65 | `18`, `30`, `65` | Hợp lệ |
-| A2 | Không hợp lệ | Nhỏ hơn 18 | `17` | `Invalid Input` |
-| A3 | Không hợp lệ | Lớn hơn 65 | `66` | `Invalid Input` |
+### 1. Biến `age`
 
-### 2.2 `income`
+| Phân hoạch | Loại | Miền giá trị | Biên | Giá trị giữa |
+| --- | --- | --- | --- | --- |
+| age < 18 | Không hợp lệ | Nhỏ hơn 18 | 17 | 10 |
+| 18 <= age <= 65 | Hợp lệ | Từ 18 đến 65 | 18, 65 | 30 |
+| age > 65 | Không hợp lệ | Lớn hơn 65 | 66 | 80 |
 
-| Lớp dữ liệu | Mô tả | Giá trị đại diện | Kết quả mong đợi |
-| --- | --- | --- | --- |
-| I1 | Hợp lệ | Từ 5.0 đến 500.0 | `5.0`, `14.9`, `15.0`, `500.0` | Hợp lệ |
-| I2 | Không hợp lệ | Nhỏ hơn 5.0 | `4.9` | `Invalid Input` |
-| I3 | Không hợp lệ | Lớn hơn 500.0 | `500.1` | `Invalid Input` |
+### 2. Biến `income`
 
-### 2.3 `credit_score`
+| Phân hoạch | Loại | Miền giá trị | Biên | Giá trị giữa |
+| --- | --- | --- | --- | --- |
+| income < 5.0 | Không hợp lệ | Nhỏ hơn 5.0 | 4.9 | 1.0 |
+| 5.0 <= income <= 500.0 | Hợp lệ | Từ 5.0 đến 500.0 | 5.0, 500.0 | 20.0 |
+| income > 500.0 | Không hợp lệ | Lớn hơn 500.0 | 500.1 | 700.0 |
 
-| Lớp dữ liệu | Mô tả | Giá trị đại diện | Kết quả mong đợi |
-| --- | --- | --- | --- |
-| C1 | Hợp lệ | Từ 300 đến 850 | `300`, `500`, `501`, `700`, `701`, `850` | Hợp lệ |
-| C2 | Không hợp lệ | Nhỏ hơn 300 | `299` | `Invalid Input` |
-| C3 | Không hợp lệ | Lớn hơn 850 | `851` | `Invalid Input` |
+### 3. Biến `credit_score`
 
-## 3. Phân tích giá trị biên
+| Phân hoạch | Loại | Miền giá trị | Biên | Giá trị giữa |
+| --- | --- | --- | --- | --- |
+| credit_score < 300 | Không hợp lệ | Nhỏ hơn 300 | 299 | 200 |
+| 300 <= credit_score <= 850 | Hợp lệ | Từ 300 đến 850 | 300, 850 | 600 |
+| credit_score > 850 | Không hợp lệ | Lớn hơn 850 | 851 | 900 |
 
-### 3.1 `age`
-
-Giá trị biên cần kiểm thử:
-
-- Cận dưới: `18`
-- Dưới cận dưới: `17`
-- Trên cận dưới: `19`
-- Cận trên: `65`
-- Dưới cận trên: `64`
-- Trên cận trên: `66`
-
-### 3.2 `income`
-
-Giá trị biên cần kiểm thử:
-
-- Cận dưới: `5.0`
-- Dưới cận dưới: `4.9`
-- Trên cận dưới: `5.1`
-- Ngưỡng nghiệp vụ quan trọng: `15.0`
-- Dưới ngưỡng: `14.9`
-- Trên ngưỡng: `15.1`
-- Cận trên: `500.0`
-- Dưới cận trên: `499.9`
-- Trên cận trên: `500.1`
-
-### 3.3 `credit_score`
-
-Giá trị biên cần kiểm thử:
-
-- Cận dưới: `300`
-- Dưới cận dưới: `299`
-- Trên cận dưới: `301`
-- Điểm chuyển mức rủi ro: `500`, `501`, `700`, `701`
-- Cận trên: `850`
-- Dưới cận trên: `849`
-- Trên cận trên: `851`
-
-## 4. Danh sách giá trị cần kiểm thử đề xuất
-
-### 4.1 Bộ giá trị tối thiểu theo từng biến
-
-| Biến | Giá trị hợp lệ cần có | Giá trị không hợp lệ cần có |
-| --- | --- | --- |
-| `age` | `18`, `65` | `17`, `66` |
-| `income` | `5.0`, `15.0`, `500.0` | `4.9`, `500.1` |
-| `credit_score` | `300`, `500`, `501`, `700`, `701`, `850` | `299`, `851` |
-
-### 4.2 Gợi ý test case cho riêng ý 1
-
-| TC | Dữ liệu | Mục đích | Kết quả mong đợi |
-| --- | --- | --- | --- |
-| TC01 | `(17, 20.0, 700)` | age dưới cận | `Invalid Input` |
-| TC02 | `(66, 20.0, 700)` | age trên cận | `Invalid Input` |
-| TC03 | `(18, 4.9, 700)` | income dưới cận | `Invalid Input` |
-| TC04 | `(18, 500.1, 700)` | income trên cận | `Invalid Input` |
-| TC05 | `(18, 20.0, 299)` | credit_score dưới cận | `Invalid Input` |
-| TC06 | `(18, 20.0, 851)` | credit_score trên cận | `Invalid Input` |
-| TC07 | `(18, 5.0, 300)` | giá trị biên thấp nhất hợp lệ | Hợp lệ |
-| TC08 | `(65, 500.0, 850)` | giá trị biên cao nhất hợp lệ | Hợp lệ |
-
-# Ý 2: Bảng quyết định cho logic nghiệp vụ
-
-## 1. Phân nhóm điều kiện
-
-| Điều kiện | Giá trị |
+| Điểm chuyển mức rủi ro | Giá trị |
 | --- | --- |
-| Rủi ro tín dụng | High / Medium / Low |
-| Thu nhập | `< 15.0` / `>= 15.0` |
-| Việc làm | `C` / `F` |
+| Low / Medium | 500, 501 |
+| Medium / High | 700, 701 |
 
-## 2. Các luật quyết định
+## B2. Lập và rút gọn Bảng quyết định (Decision Table)
 
-| Luật | Risk | Income | Employment | Kết quả |
-| --- | --- | --- | --- | --- |
-| R1 | High | Bất kỳ | Bất kỳ | `REJECT` |
-| R2 | Low | `< 15.0` | `C` | `MANUAL REVIEW` |
-| R3 | Low | `< 15.0` | `F` | `REJECT` |
-| R4 | Medium | `< 15.0` | `C` | `REJECT` |
-| R5 | Medium | `< 15.0` | `F` | `REJECT` |
-| R6 | Low | `>= 15.0` | `C` | `APPROVE` |
-| R7 | Medium | `>= 15.0` | `C` | `APPROVE` |
-| R8 | Low | `>= 15.0` | `F` | `MANUAL REVIEW` |
-| R9 | Medium | `>= 15.0` | `F` | `MANUAL REVIEW` |
+### 1. Các điều kiện quyết định
 
-## 3. Bảng quyết định rút gọn
+| Mã điều kiện | Nội dung |
+| --- | --- |
+| C1 | Risk = High? |
+| C2 | Income < 15.0? |
+| C3 | Employment = Contract (C)? |
+| C4 | Risk = Low? |
+| C5 | Risk = Medium? |
 
-Sau khi rút gọn, các luật có cùng kết quả được gom lại như sau:
+### 2. Quy tắc rút gọn
 
-| Luật rút gọn | Risk | Income | Employment | Kết quả |
-| --- | --- | --- | --- | --- |
-| G1 | High | Bất kỳ | Bất kỳ | `REJECT` |
-| G2 | Low | `< 15.0` | `C` | `MANUAL REVIEW` |
-| G3 | Low/Medium | `< 15.0` | `F` | `REJECT` |
-| G4 | Medium | `< 15.0` | `C` | `REJECT` |
-| G5 | Low/Medium | `>= 15.0` | `C` | `APPROVE` |
-| G6 | Low/Medium | `>= 15.0` | `F` | `MANUAL REVIEW` |
-
-## 4. Số kịch bản tối thiểu cần kiểm thử
-
-Từ bảng rút gọn, số kịch bản tối thiểu cần kiểm thử cho logic nghiệp vụ hợp lệ là **6**.
-
-# Ý 3: Danh sách test case hoàn chỉnh
-
-## 1. Nguyên tắc tạo test case
-
-Test case được kết hợp từ:
-
-- Các giá trị biên của `age`, `income`, `credit_score`.
-- Các luật rút gọn trong bảng quyết định của ý 2.
-- Các đầu vào hợp lệ và không hợp lệ để kiểm tra nhánh `Invalid Input`.
-
-## 2. Danh sách test case
-
-| TC | age | income | credit_score | employment | Mục tiêu | Kết quả mong đợi |
+| Quy tắc | High Risk | Income < 15.0 | Employment = C | Low Risk | Medium Risk | Hành động |
 | --- | --- | --- | --- | --- | --- | --- |
-| TC01 | `17` | `20.0` | `700` | `C` | age dưới cận | `Invalid Input` |
-| TC02 | `66` | `20.0` | `700` | `C` | age trên cận | `Invalid Input` |
-| TC03 | `18` | `4.9` | `700` | `C` | income dưới cận | `Invalid Input` |
-| TC04 | `18` | `500.1` | `700` | `C` | income trên cận | `Invalid Input` |
-| TC05 | `18` | `20.0` | `299` | `C` | credit_score dưới cận | `Invalid Input` |
-| TC06 | `18` | `20.0` | `851` | `C` | credit_score trên cận | `Invalid Input` |
-| TC07 | `18` | `20.0` | `700` | `X` | employment không hợp lệ | `Invalid Input` |
-| TC08 | `18` | `20.0` | `500` | `C` | High Risk luôn từ chối | `REJECT` |
-| TC09 | `30` | `14.9` | `701` | `C` | Income < 15, Contract, Low Risk | `MANUAL REVIEW` |
-| TC10 | `30` | `14.9` | `701` | `F` | Income < 15, Freelance, Low Risk | `REJECT` |
-| TC11 | `30` | `14.9` | `501` | `C` | Income < 15, Medium Risk | `REJECT` |
-| TC12 | `65` | `15.0` | `701` | `C` | Income >= 15, Contract, Low Risk | `APPROVE` |
-| TC13 | `65` | `15.0` | `701` | `F` | Income >= 15, Freelance, Low Risk | `MANUAL REVIEW` |
-| TC14 | `30` | `20.0` | `700` | `C` | Income >= 15, Contract, Medium Risk | `APPROVE` |
-| TC15 | `30` | `20.0` | `700` | `F` | Income >= 15, Freelance, Medium Risk | `MANUAL REVIEW` |
+| Rule 1 | T | Any (-) | Any (-) | Any (-) | Any (-) | REJECT |
+| Rule 2 | F | T | T | T | F | MANUAL REVIEW |
+| Rule 3 | F | T | F | T | F | REJECT |
+| Rule 4 | F | T | T | F | T | REJECT |
+| Rule 5 | F | F | T | T | F | APPROVE |
+| Rule 6 | F | F | F | T | T | MANUAL REVIEW |
+
+### 3. Diễn giải ngắn
+
+| Trường hợp | Kết quả |
+| --- | --- |
+| High Risk | Luôn REJECT, bất kể income hay employment |
+| Income >= 15.0, Contract | APPROVE |
+| Income >= 15.0, Freelance | MANUAL REVIEW |
+| Income < 15.0, Low Risk, Contract | MANUAL REVIEW |
+| Các trường hợp còn lại | REJECT |
+
+## B3. Thiết kế các ca kiểm thử (Test Cases)
+
+Lồng ghép các giá trị biên từ Bước 1 vào các kịch bản của Bước 2 để tạo ra bộ kiểm thử hoàn chỉnh.
+
+### Nhóm 1: Kiểm tra ngoại lệ (Invalid Inputs - Dựa trên biên)
+
+| TC ID | age | income | credit_score | employment | Expected Output | Ghi chú |
+| --- | --- | --- | --- | --- | --- | --- |
+| TC_01 | 17 | 20.0 | 700 | C | Invalid Input | BVA (age < 18) |
+| TC_02 | 66 | 20.0 | 700 | C | Invalid Input | BVA (age > 65) |
+| TC_03 | 18 | 4.9 | 700 | C | Invalid Input | BVA (income < 5.0) |
+| TC_04 | 18 | 500.1 | 700 | C | Invalid Input | BVA (income > 500.0) |
+| TC_05 | 18 | 20.0 | 299 | C | Invalid Input | BVA (credit_score < 300) |
+| TC_06 | 18 | 20.0 | 851 | C | Invalid Input | BVA (credit_score > 850) |
+| TC_07 | 18 | 20.0 | 700 | X | Invalid Input | employment không hợp lệ |
+
+### Nhóm 2: Kiểm tra logic nghiệp vụ
+
+| TC ID | Áp dụng | age | income | credit_score | employment | Expected Output | Giải thích |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| TC_08 | Rule 1 | 18 | 20.0 | 500 | C | REJECT | High Risk luôn bị từ chối |
+| TC_09 | Rule 2 | 30 | 14.9 | 701 | C | MANUAL REVIEW | Low Risk + income < 15 + Contract |
+| TC_10 | Rule 3 | 30 | 14.9 | 701 | F | REJECT | Low Risk + income < 15 + Freelance |
+| TC_11 | Rule 4 | 30 | 14.9 | 501 | C | REJECT | Medium Risk + income < 15 |
+| TC_12 | Rule 5 | 65 | 15.0 | 701 | C | APPROVE | Low Risk + Contract |
+| TC_13 | Rule 6 | 65 | 15.0 | 701 | F | MANUAL REVIEW | Low Risk + Freelance |
+| TC_14 | Rule 5 | 30 | 20.0 | 700 | C | APPROVE | Medium Risk + Contract |
+| TC_15 | Rule 6 | 30 | 20.0 | 700 | F | MANUAL REVIEW | Medium Risk + Freelance |
